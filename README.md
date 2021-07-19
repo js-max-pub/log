@@ -1,3 +1,3 @@
 # log
 
-see [[demo.js]]
+see [[demo.js|demo]]
