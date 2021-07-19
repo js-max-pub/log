@@ -43,6 +43,7 @@ export class Log {
 	get orange() { return this.color('orange') }
 	get silver() { return this.color('silver') }
 	get gray() { return this.color('gray') }
+	get white() { return this.color('white') }
 
 
 	mode(m) { this._mode = m; return this; }
@@ -78,7 +79,8 @@ export class Log {
 		// return this.string('%f').format(n).done()
 	}
 	bool(b) {
-
+		if (b) return this.green.text(b)
+		else return this.red.text(b)
 	}
 	object(o) {
 		return this.color('auto').string('%o').format(o).done()
@@ -91,7 +93,7 @@ export class Log {
 		return this.text(new Date().toISOString().slice(11, 19))
 	}
 	get duration() {
-		return this.pad(8,3).number((new Date() - this._start)/1000)
+		return this.pad(8, 3).number((new Date() - this._start) / 1000)
 	}
 	count(counter = '') {
 		if (!this._counter[counter])
