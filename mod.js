@@ -106,6 +106,7 @@ export class Log {
 		this.lineCounter += y.length
 		return this.log(y)
 	}
+	bool(x) { return (x ? this.green : this.red).text(x) }
 	info(...x) { return this.reset.text(...x) }
 	warn(...x) { return this.yellow.text(...x) }
 	error(...x) { return this.red.text(...x) }
