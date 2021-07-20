@@ -1,4 +1,4 @@
-
+// https://en.wikipedia.org/wiki/ANSI_escape_code
 export class Log {
 	static default = new Log()
 
