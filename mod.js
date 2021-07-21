@@ -2,19 +2,38 @@
 export class Log {
 	static default = new Log()
 
+	mode = 'web'
+	_line = ''
+	_text = ''
+
 	enabled = true
 	startTime = new Date().getTime()
 
+
+	constructor() {
+		try {
+			Deno
+			this.mode = 'deno'
+		} catch { }
+		// console.log("MODE", this.mode)
+	}
 	log(x) {
+		this._line += x
 		if (this.enabled)
-			Deno.writeAllSync(Deno.stdout, new TextEncoder().encode(x))
+			switch (this.mode) {
+				case 'deno':
+					Deno.writeAllSync(Deno.stdout, new TextEncoder().encode(x))
+					break
+				case 'node':
+					break
+			}
 		return this
 	}
 
 	escape(x) { this.lastEscape = x; return this.log(`\x1b[${x}m`) }
 	base(n) { return this.escape(n) }
-	plus(n) { return this.escape(`38:5:${n}`) }
-	rgb(r, g, b) { return this.escape(`38;2;${r};${g};${b}`) }
+	plus(n) { if (this.mode == 'web') return this; return this.escape(`38;5;${n}`) }
+	rgb(r, g, b) { if (this.mode == 'web') return this; return this.escape(`38;2;${r};${g};${b}`) }
 	hex(x) {
 		let rgb = []
 		if (x.length == 3) rgb = x.split('').map(x => x + '0')
@@ -30,6 +49,7 @@ export class Log {
 	get dark() { return this.base(2) }
 	get italic() { return this.base(3) }
 	get underline() { return this.base(4) }
+	get blink() { return this.base(5) }
 
 	get black() { return this.base(30) }
 	get red() { return this.base(31) }
@@ -38,6 +58,8 @@ export class Log {
 	get blue() { return this.base(34) }
 	get magenta() { return this.base(35) }
 	get cyan() { return this.base(36) }
+	get white() { return this.base(37) }
+	// get crimson() { return this.base(38) }
 
 	// get silver() { return this.plus(7) }
 	// get gray() { return this.plus(8) }
@@ -51,9 +73,17 @@ export class Log {
 
 	get tib() { return this.text('  ') }
 	get tab() { return this.text('\t') }
-	get back() { return this.text('\r') }
-	get line() { this.lineCounter = 0; return this.text('\n') }
-	get bar() { return this.text(' | ') }
+	get back() { this._line = ''; this._text = ''; return this.text('\r') }
+	get line() {
+		if (this.mode == 'web')
+			console.log(this._line)
+		this._line = '';
+		this._text = '';
+		if (this.mode == 'web') return this
+		else return this.text('\n')
+	}
+	get bar() { return this.reset.gray.text(' | ').reset }
+	get quote() { return this.reset.gray.text('"').reset }
 
 	_counter = 0
 	get counter() { return this.text(String(++this._counter).padStart(4, ' ')) }
@@ -64,16 +94,17 @@ export class Log {
 	get totalMillis() { return this.text(this.totalTime + 'ms') }
 	get totalSeconds() { return this.text(Math.round(this.totalTime / 1000) + 's') }
 
-	quote(x) {
-		let last = this.lastEscape
-		return this.gray.text('"').escape(last).text(x).gray.text('"').escape(last)
-	}
+	// quote(x) {
+	// 	let last = this.lastEscape
+	// 	return this.gray.text('"').escape(last).text(x).gray.text('"').escape(last)
+	// }
 
-	move(x) { return this.text(''.padEnd(x - this.lineCounter)) }
+	move(x) { return this.text(''.padEnd(x - this._text.length)) }
 
 	text(...x) {
 		let y = x.map(x => typeof x == 'object' ? JSON.stringify(x) : x).join(' ')
-		this.lineCounter += y.length
+		this._text += y
+		this.onText?.(y)
 		return this.log(y)
 	}
 	bool(x) { return (x ? this.green : this.red).text(x) }
@@ -81,7 +112,7 @@ export class Log {
 	warn(...x) { return this.yellow.text(...x) }
 	error(...x) { return this.red.text(...x) }
 
-	get timeCounter() { return this.line.reset.gray.time.tib.silver.counter.tib }
+	get timeCounter() { return this.line.reset.gray.time.tib.silver.counter.tib.gray.bar.tib.reset }
 }
 
 export const log = new Log()

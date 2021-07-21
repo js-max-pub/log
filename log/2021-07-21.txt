@@ -1,0 +1,20 @@
+
+11:41:05     1   |   hi  max  "the best"          | jo mo
+11:41:05     2   |   more text                    | jo
+hallobonjour	1	0
+jooo
+
+hi  jo  mo
+
+total: 44ms
+
+
+11:41:13     1   |   hi  max  "the best"          | jo mo
+11:41:13     2   |   more text                    | jo
+hallobonjour	1	0
+jooo
+
+hi  jo  mo
+
+total: 21ms
+
