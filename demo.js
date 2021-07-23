@@ -1,7 +1,8 @@
 import { log } from './mod.js'
 import { FS } from 'https://jsv.max.pub/fs/2021/deno.js'
 
-log.onText = function (x) { FS.folder('log').create().file(new Date().toISOString().slice(0, 10) + '.txt').append.text = x }
+log.onText = x => FS.folder('log').create().file(new Date().toISOString().slice(0, 10) + '.txt').append.text = x
+
 log.timeCounter.green.text('hi').tib.red.text('max').tib.quote.text('the best').quote.move(50).bar.red.text('jo ').white.blink.text('mo')
 log.timeCounter.violet.text('more text').move(50).bar.text('jo')
 log.line.text('hallo').back.text('bonjour').tab.bool(1).tab.bool(0)
