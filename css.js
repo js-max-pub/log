@@ -6,6 +6,8 @@
 // %c → Applies CSS style rules to the output string as specified by the second parameter
 
 export class Log {
+	static default = new Log()
+
 	static ERROR = 1;
 	static WARNING = 2;
 	static SUCCESS = 3;
