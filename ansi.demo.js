@@ -1,4 +1,4 @@
-import { log } from './mod.js'
+import { log } from './ansi.js'
 import { FS } from 'https://jsv.max.pub/fs/2021/deno.js'
 
 log.onText = x => FS.folder('log').create().file(new Date().toISOString().slice(0, 10) + '.txt').append.text = x
