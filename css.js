@@ -55,6 +55,7 @@ export class Log {
 	get blue() { return this.color('blue') }
 	get skyBlue() { return this.color('skyblue') }
 	get seaGreen() { return this.color('seagreen') }
+	get yellow() { return this.color('yellow') }
 	get orange() { return this.color('orange') }
 	get cyan() { return this.color('cyan') }
 	get silver() { return this.color('silver') }
