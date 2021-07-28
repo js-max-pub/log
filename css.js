@@ -119,7 +119,7 @@ export class Log {
 	count(counter = '') {
 		if (!this._counter[counter])
 			this._counter[counter] = 0
-		return this.text(++this._counter[counter]);
+		return this.text(String(++this._counter[counter]).padStart(4));
 	}
 	clearAll() {
 		this._string = [];
