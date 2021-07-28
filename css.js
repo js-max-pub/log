@@ -63,6 +63,7 @@ export class Log {
 
 
 	mode(m) { this._mode = m; return this; }
+	get info() { return this.mode(Log.info).reset }
 	get success() { return this.mode(Log.SUCCESS).lime }
 	get warning() { return this.mode(Log.WARNING).orange }
 	get error() { return this.mode(Log.ERROR).red }
