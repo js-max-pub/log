@@ -107,9 +107,25 @@ export class Log {
 		this.onText?.(y)
 		return this.log(y)
 	}
+	number(n) {
+		let t = String(n).split('').reverse().join('').match(/.{1,3}/g).join('_').split('').reverse().join('')
+		return this.text(t)
+	}
+	ms(d) {
+		if (d * 1 > 100) this.orange
+		if (d * 1 > 500) this.red
+		return this.text(d).silver.number('ms')
+	}
+	percent(n, decimals = 0) {
+		let pc = Number(n).toFixed(decimals)
+		return this.text(pc).silver.number('%')
+
+	}
 	bool(x) { return (x ? this.green : this.red).text(x) }
+
+	debug(...x) { }
 	info(...x) { return this.reset.text(...x) }
-	warn(...x) { return this.yellow.text(...x) }
+	warning(...x) { return this.yellow.text(...x) }
 	error(...x) { return this.red.text(...x) }
 
 	get timeCounter() { return this.line.reset.gray.time.tib.silver.counter.tib.gray.bar.tib.reset }

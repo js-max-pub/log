@@ -1,0 +1,11 @@
+console.info('info')
+console.log('log')
+console.warn('warn')
+console.error('error')
+let o = { a: 1, b: { c: { d: { e: 5, f: { g: { h: { i: 9 } } } } } } }
+console.log(o)
+console.dir(o)
+console.group('a')
+console.log('a1')
+console.log('a2')
+console.groupEnd()

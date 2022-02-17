@@ -10,7 +10,7 @@ export class Log {
 
 	static ERROR = 1;
 	static WARNING = 2;
-	static SUCCESS = 3;
+	// static SUCCESS = 3;
 	static INFO = 4;
 	static DEBUG = 5;
 
@@ -42,7 +42,7 @@ export class Log {
 	get dot() { return this.string('.') }
 	get bar() { return this.string(' | ') }
 	get quote() { return this.string('"') }
-
+	get arrow() { return this.string(' ➔ ') }
 
 	format(f) { if (this._mode > this._level) return this; this._format.push(f); return this; }
 
